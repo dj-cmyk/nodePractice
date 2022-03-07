@@ -46,14 +46,20 @@ let path;
 let out;
 
 if (process.argv[2] === '--out') {
-  out = process.argv[3];
-  path = process.argv[4];
+    for (let i = 3; i < process.argv.length; i+=2)
+        out = process.argv[i];
+        path = process.argv[i+1]; 
+        if (path.slice(0, 4) === 'http') {
+            webCat(path, out);
+          } else {
+            cat(path, out);
+          }
 } else {
   path = process.argv[2];
+  if (path.slice(0, 4) === 'http') {
+    webCat(path, out);
+  } else {
+    cat(path, out);
+  }
 }
 
-if (path.slice(0, 4) === 'http') {
-  webCat(path, out);
-} else {
-  cat(path, out);
-}
